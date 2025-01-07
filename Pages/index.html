@@ -1,73 +1,108 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bybit Triangular Arbitrage Finder</title>
+    
+    <link rel="shortcut icon" href="JS/nerdfavicon.ico" type="image/x-icon" alt="Bybit Arbitrage Tool Icon" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400&display=swap"
+      rel="stylesheet"
+    />
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400&display=swap");
+
       * {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
-        font-family: Roboto;
+        font-family: 'Roboto', sans-serif;
       }
+
       body {
         margin: 1rem 10rem;
+        background-color: #f4f4f9;
+        color: #333;
       }
+
       header h1 {
         font-weight: 400;
         font-size: 3rem;
+        color: #333;
       }
+
       header h3 {
         font-weight: 400;
         font-size: 1.5rem;
+        color: #555;
       }
+
       header p {
         font-weight: 300;
         font-size: 1rem;
+        line-height: 1.5;
       }
+
       table {
         margin-top: 2rem;
+        width: 100%;
+        border-collapse: collapse;
       }
+
       table tr th {
-        background: #111;
+        background-color: #111;
         color: white;
-        padding: 0.25rem 3rem;
+        padding: 0.5rem 1.5rem;
       }
+
       table tr td {
-        padding: 0.25rem 3rem;
+        padding: 0.5rem 1.5rem;
         background: #b6fcc0;
       }
+
+      table th, table td {
+        text-align: center;
+      }
+
+      table tr:hover {
+        background-color: #e6f7e6;
+      }
     </style>
-    <link rel="shortcut icon" href="JS/nerdfavicon.ico" type="image/x-icon" />
-    <meta charset="utf-8" />
-    <title>Bybit Triangular Arbitrage Finder</title>
+  </head>
+
+  <body>
+    <header>
+      <h1>Bybit Triangular Arbitrage Scanner</h1>
+      <h3>v1.0 | Socket API | Live Updates</h3>
+      <p>
+        This tool analyzes all the pairs on the BYBIT SPOT exchange and provides
+        a list of available arbitrage trade opportunities. Click
+        <a target="_blank" href="https://youtu.be/03wySxlklas">here</a>
+        to watch the video and learn more.
+      </p>
+    </header>
+
+    <table id="finTable" class="table table-bordered table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th>#S.No</th>
+          <th>Sequence</th>
+          <th>Profit %</th>
+        </tr>
+      </thead>
+      <tbody id="tartbitBody"></tbody>
+    </table>
+
+    <!-- Include Socket.io Script -->
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
       integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-  </head>
-  <body>
-    <header>
-      <h1>Bybit Triangular Arbitrage Scanner</h1>
-      <h3>v1.0 | | Socket API | Live Updates</h3>
-      <p>
-        This tool analysis all the pairs on BYBIT SPOT exchange and provides the
-        list of available arbitrage trade opportunities. click
-        <a target="_blank" href="https://youtu.be/03wySxlklas">here</a>
-        to watch the video and know more
-      </p>
-    </header>
-    <table id="finTable" class="table table-bordered table-hover">
-      <thead class="thead-dark">
-        <tr>
-          <th>#S.No</th>
-          <th>Sequence</th>
-          <th>Profit%</th>
-        </tr>
-      </thead>
-      <tbody id="tartbitBody"></tbody>
-    </table>
-    <script src="JS/index.js"></script>
+
+    <!-- Include Your JS File with Defer Attribute -->
+    <script src="JS/index.js" defer></script>
   </body>
 </html>
