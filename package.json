@@ -1,13 +1,13 @@
 {
   "name": "triarbbybit",
   "version": "1.0.0",
-  "description": "",
+  "description": "Bybit Spot Triangular Arbitrage Finder",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["arbitrage", "bybit", "crypto", "trading"],
+  "author": "Ahmad Haruna <109886046+Ahmad1010102@users.noreply.github.com>",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
