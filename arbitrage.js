@@ -129,7 +129,7 @@ const processData = (pl) => {
 let ws = "";
 let subs = [];
 const wsconnect = () => {
-  ws = new Websocket(`wss://stream.bybit.com/spot/public/v3`);
+  ws = new Websocket(`wss://stream.bybit.com/v5/trade`);
   subs = Object.keys(symValJ).map((d) => `bookticker.${d}`);
   
   ws.on("open", async () => {
