@@ -1,6 +1,6 @@
 const socket = io.connect('/');
 let runFlag = 'X';
-let mimPL = 0;
+let minPL = 0;
 
 const runToggle = () => {
   if (runFlag) {
@@ -15,13 +15,13 @@ const runToggle = () => {
 };
 
 const minLimit = (ml) => {
-  mimPL = parseFloat(ml);
+  minPL = parseFloat(ml);
 };
 
 socket.on('ARBITRAGE', (pl) => {
   if (runFlag) {
     let markup = '';
-    pl.filter((p) => p.value >= mimPL).forEach((d, i) => {
+    pl.filter((p) => p.value >= minPL).forEach((d, i) => {
       markup +=
         "<tr class='table-success'><td>" +
         (i + 1) +
