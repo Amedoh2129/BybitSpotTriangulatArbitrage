@@ -1,18 +1,12 @@
 const socket = io.connect('/');
-let runFlag = 'X';
+let runFlag = true;
 let minPL = 0;
 
 const runToggle = () => {
-  if (runFlag) {
-    runFlag = '';
-    document.getElementById('runDiv').innerHTML =
-      '<button onclick="runToggle();" type="button" class="btn btn-danger" id="runFlag">Toggle</button>';
-  } else {
-    runFlag = 'X';
-    document.getElementById('runDiv').innerHTML =
-      '<button onclick="runToggle();" type="button" class="btn btn-success" id="runFlag">Toggle</button>';
-  }
-};
+  runFlag = !runFlag;
+  document.getElementById('runDiv').innerHTML =
+    `<button onclick="runToggle();" type="button" class="btn ${runFlag ? 'btn-success' : 'btn-danger'}" id="runFlag">Toggle</button>`;
+}
 
 const minLimit = (ml) => {
   minPL = parseFloat(ml);
