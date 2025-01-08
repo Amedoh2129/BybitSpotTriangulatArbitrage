@@ -133,6 +133,7 @@ const wsconnect = () => {
   subs = Object.keys(symValJ).map((d) => `bookticker.${d}`);
   
   ws.on("open", async () => {
+    log("WebSocket connection opened.");
     log("Establishing WebSocket connections...");
     const chunkSize = 10;
     const argChunks = subs.map((d, i, arr) => (i % chunkSize ? "" : arr.slice(i, i + chunkSize))).filter((d) => d);
@@ -153,7 +154,10 @@ const wsconnect = () => {
   });
 
   ws.on("error", (err) => log("WebSocket Error:", err));
-  ws.on("message", processData);
+  ws.on("message", (data) => {
+    log("WebSocket message received:", data);
+    processData(data);
+  });
 
   setInterval(() => {
     if (ws.readyState !== Websocket.OPEN) return;
