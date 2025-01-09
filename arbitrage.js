@@ -11,7 +11,7 @@ const eventEmitter = new events();
 
 const getPairs = async () => {
   try {
-    const resp = await got("https://api.bybit.com/spot/v3/public/symbols");
+    const resp = await got("https://api.bybit.com/v5/market/ticker");
     const eInfo = JSON.parse(resp.body);
     const symbols = [...new Set(eInfo.result.list.map((d) => [d.baseCoin, d.quoteCoin]).flat())];
     const validPairs = eInfo.result.list.map((d) => d.name);
@@ -81,6 +81,7 @@ const getPairs = async () => {
 
 const processData = (pl) => {
   try {
+    log("Received WebSocket data:", pl);
     pl = JSON.parse(pl);
     const symbol = pl?.topic?.slice(11);
     const { data } = pl;
@@ -90,6 +91,7 @@ const processData = (pl) => {
     const { bp: bidPrice, ap: askPrice } = data;
     if (!bidPrice && !askPrice) return;
 
+    log(`Updating prices for symbol: ${symbol}, bidPrice: ${bidPrice}, askPrice: ${askPrice}`);
     if (bidPrice) symValJ[symbol].bidPrice = bidPrice * 1;
     if (askPrice) symValJ[symbol].askPrice = askPrice * 1;
 
@@ -124,10 +126,12 @@ const processData = (pl) => {
 
           d.tpath = lv_str;
           d.value = parseFloat(((lv_calc - 1) * 100).toFixed(3));
+          log(`Calculated arbitrage opportunity: ${d.tpath}, Profit: ${d.value}%`);
         }
       });
 
-    eventEmitter.emit("ARBITRAGE", sort(pairs.filter((d) => d.value > 0)).desc((u) => u.value));
+    const opportunities = sort(pairs.filter((d) => d.value > 0)).desc((u) => u.value);
+    eventEmitter.emit("ARBITRAGE", opportunities);
   } catch (err) {
     error("Error processing data:", err);
   }
@@ -163,7 +167,7 @@ const wsconnect = () => {
     } while (true);
     
     log("All WebSocket connections established.");
-    log("Open http://0.0.0.0:3000/ to access the tool.");
+    log("Open http://127.0.0.1:3000/ to access the tool.");
   });
 
   ws.on("error", (err) => log("WebSocket Error:", err));
