@@ -11,7 +11,7 @@ const eventEmitter = new events();
 
 const getPairs = async () => {
   try {
-    const resp = await got("https://api.bybit.com/spot/v3/public/symbols");
+    const resp = await got("https://api.bybit.com/v5/market/ticker");
     const eInfo = JSON.parse(resp.body);
     const symbols = [...new Set(eInfo.result.list.map((d) => [d.baseCoin, d.quoteCoin]).flat())];
     const validPairs = eInfo.result.list.map((d) => d.name);
@@ -132,6 +132,12 @@ const processData = (pl) => {
     error("Error processing data:", err);
   }
 };
+
+eventEmitter.on("ARBITRAGE", (opportunities) => {
+  opportunities.forEach(opportunity => {
+    log(`Path: ${opportunity.tpath}, Profit: ${opportunity.value}%`);
+  });
+});
 
 let ws = "";
 let subs = [];
