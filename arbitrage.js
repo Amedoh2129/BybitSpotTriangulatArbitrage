@@ -11,7 +11,7 @@ const eventEmitter = new events();
 
 const getPairs = async () => {
   try {
-    const resp = await got("https://api.bybit.com/v5/market/ticker");
+    const resp = await got("https://api.bybit.com/spot/v3/public/symbols");
     const eInfo = JSON.parse(resp.body);
     const symbols = [...new Set(eInfo.result.list.map((d) => [d.baseCoin, d.quoteCoin]).flat())];
     const validPairs = eInfo.result.list.map((d) => d.name);
@@ -163,7 +163,7 @@ const wsconnect = () => {
     } while (true);
     
     log("All WebSocket connections established.");
-    log("Open http://127.0.0.1:3000/ to access the tool.");
+    log("Open http://0.0.0.0:3000/ to access the tool.");
   });
 
   ws.on("error", (err) => log("WebSocket Error:", err));
