@@ -20,12 +20,13 @@ const getPairs = async () => {
       symValJ[symbol] = { bidPrice: 0, askPrice: 0 };
     });
 
+    const paths = [];
     symbols.forEach((d1) => {
       symbols.forEach((d2) => {
         symbols.forEach((d3) => {
           if (!(d1 === d2 || d2 === d3 || d3 === d1)) {
             let lv1 = [], lv2 = [], lv3 = [], l1 = "", l2 = "", l3 = "";
-            
+
             // Validate if pairs exist
             if (symValJ[d1 + d2]) {
               lv1.push(d1 + d2);
@@ -60,6 +61,10 @@ const getPairs = async () => {
                 l1, l2, l3, d1, d2, d3,
                 lv1: lv1[0], lv2: lv2[0], lv3: lv3[0], value: -100, tpath: ""
               });
+
+              // Construct the path in the desired format
+              const path = `${d1} -> ${lv1[0]} -> ${d2} -> ${lv2[0]} -> ${d3} -> ${lv3[0]} -> ${d1}`;
+              paths.push(path);
             }
           }
         });
@@ -67,6 +72,8 @@ const getPairs = async () => {
     });
 
     log(`Finished identifying all the paths. Total symbols = ${symbols.length}. Total paths = ${pairs.length}`);
+    log("Triangular Arbitrage Paths:");
+    paths.forEach(path => log(path));
   } catch (err) {
     error("Error getting pairs:", err);
   }
